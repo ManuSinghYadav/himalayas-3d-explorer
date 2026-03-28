@@ -2,8 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Himalayas 3D Explorer</title>
+  <meta name="theme-color" content="#0a0e1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Himalayas 3D">
+  <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" href="favicon.svg">
   <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
@@ -361,6 +366,94 @@
     .modal-box button { width: 100%; background: #3b82f6; color: #fff; border: none; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; }
     .modal-box button:hover { background: #2563eb; }
     #token-error { color: #f87171; font-size: 12px; margin-top: 8px; display: none; }
+
+    /* ════════════════════════════════════════
+       MOBILE RESPONSIVE  (≤ 640px)
+    ════════════════════════════════════════ */
+    @media (max-width: 640px) {
+      /* Search bar: fill width, leave gap for toolbar */
+      #search-wrap {
+        left: 14px; right: 72px;
+        width: auto; max-width: none;
+        transform: none;
+      }
+
+      /* Toolbar: slightly smaller buttons */
+      .tb-btn { width: 46px; height: 46px; font-size: 20px; }
+
+      /* Header: smaller text */
+      #header h1 { font-size: 14px; letter-spacing: 1px; }
+      #header span { font-size: 9px; }
+
+      /* Right col: anchor to bottom, full width */
+      #right-col {
+        top: auto; bottom: 0;
+        left: 0; right: 0;
+        width: 100%;
+        padding-bottom: env(safe-area-inset-bottom);
+        gap: 0;
+      }
+
+      /* Panels become bottom sheets */
+      #trek-panel, #weather-panel {
+        width: 100%;
+        border-radius: 20px 20px 0 0;
+        transform: translateY(16px);
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+      #trek-panel.visible, #weather-panel.visible {
+        transform: translateY(0);
+      }
+
+      /* Drag handle pill on bottom sheets */
+      #trek-panel::before, #weather-panel::before {
+        content: '';
+        display: block;
+        width: 40px; height: 4px;
+        background: rgba(255,255,255,0.18);
+        border-radius: 2px;
+        margin: 10px auto 2px;
+      }
+
+      /* Trek toggle: reduce top padding since handle is above */
+      #trek-toggle { padding-top: 6px; }
+
+      /* Trek / weather scrollable areas: taller on mobile */
+      #trek-panel.open #trek-body  { max-height: 65vh; }
+      #weather-panel.open #weather-body { max-height: 55vh; }
+
+      /* Place sidebar: full-width bottom sheet on left wrap */
+      #place-sidebar-wrap {
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        top: auto; width: 100%;
+        z-index: 11;
+      }
+      #place-sidebar {
+        border-radius: 20px 20px 0 0;
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+      #place-sidebar::before {
+        content: '';
+        display: block;
+        width: 40px; height: 4px;
+        background: rgba(255,255,255,0.18);
+        border-radius: 2px;
+        margin: 10px auto 0;
+      }
+      #ps-header { padding-top: 6px; }
+
+      /* Move mapbox nav controls up so they aren't hidden by sheets */
+      .mapboxgl-ctrl-bottom-right { bottom: 24px !important; right: 14px !important; }
+      .mapboxgl-ctrl-bottom-left  { bottom: 24px !important; }
+
+      /* Slightly larger tap targets for map popups */
+      .mapboxgl-popup-content { font-size: 13px !important; padding: 16px 18px !important; }
+
+      /* Modal: full width on small screens */
+      .modal-box { padding: 24px 20px; border-radius: 16px 16px 0 0; position: fixed; bottom: 0; left: 0; right: 0; max-width: 100%; }
+    }
   </style>
 </head>
 <body>
@@ -1045,6 +1138,11 @@ function toggleTrekPanel() {
     panel.classList.remove('visible');
     btn.classList.remove('active');
   } else {
+    // On mobile: close weather panel if open
+    if (window.innerWidth <= 640) {
+      document.getElementById('weather-panel').classList.remove('visible', 'open');
+      document.getElementById('tb-weather').classList.remove('active');
+    }
     panel.classList.add('visible', 'open');
     btn.classList.add('active');
   }
@@ -1190,6 +1288,11 @@ function toggleWeatherPanel() {
     panel.classList.remove('visible', 'open');
     btn.classList.remove('active');
   } else {
+    // On mobile: close trek panel if open
+    if (window.innerWidth <= 640) {
+      document.getElementById('trek-panel').classList.remove('visible');
+      document.getElementById('tb-trek').classList.remove('active');
+    }
     panel.classList.add('visible', 'open');
     btn.classList.add('active');
     fetchWeather();

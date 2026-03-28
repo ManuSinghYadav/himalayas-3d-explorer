@@ -1,0 +1,13 @@
+{
+  "name": "Himalayas 3D Explorer",
+  "short_name": "Himalayas 3D",
+  "description": "Interactive 3D map of the Himalayan range with trek routes and live weather",
+  "icons": [
+    { "src": "favicon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any maskable" }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0e1a"
+}
