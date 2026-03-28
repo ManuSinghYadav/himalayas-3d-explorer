@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#0a0e1a"/>
+  <defs>
+    <linearGradient id="a" x1="16" y1="3" x2="16" y2="29" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#bfdbfe"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.4"/>
+    </linearGradient>
+  </defs>
+  <!-- Side peaks -->
+  <path d="M1 29 L8.5 15 L16 29Z" fill="#1e293b" stroke="#475569" stroke-width="0.7" stroke-linejoin="round"/>
+  <path d="M16 29 L23.5 17 L31 29Z" fill="#1e293b" stroke="#475569" stroke-width="0.7" stroke-linejoin="round"/>
+  <!-- Main peak -->
+  <path d="M8 29 L16 3 L24 29Z" fill="url(#a)" stroke="white" stroke-width="1.1" stroke-linejoin="round"/>
+  <!-- Snow cap -->
+  <path d="M16 3 L12.5 12 L19.5 12Z" fill="white"/>
+  <!-- Snow contour -->
+  <path d="M13 11.5 Q16 8 19 11.5" fill="none" stroke="#93c5fd" stroke-width="0.7" stroke-linecap="round"/>
+</svg>
