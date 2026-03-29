@@ -941,6 +941,7 @@ function initMap() {
     return;
   }
   document.getElementById('token-modal').style.display = 'none';
+  localStorage.setItem('mbx_token', token);
   mapboxgl.accessToken = token;
 
   map = new mapboxgl.Map({
@@ -1397,11 +1398,14 @@ function updatePlaceClock() {
 // Build UI on load
 buildTrekList();
 
-// Auto-launch if token is pre-configured
-if (window.MAPBOX_TOKEN) {
-  document.getElementById('token-input').value = window.MAPBOX_TOKEN;
-  initMap();
-}
+// Auto-launch: priority → config.js → localStorage → show modal
+(function () {
+  const saved = window.MAPBOX_TOKEN || localStorage.getItem('mbx_token');
+  if (saved) {
+    document.getElementById('token-input').value = saved;
+    initMap();
+  }
+})();
 </script>
 </body>
 </html>
